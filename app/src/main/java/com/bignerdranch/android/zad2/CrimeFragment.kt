@@ -14,7 +14,6 @@ import com.bignerdranch.android.zad2.R.id.crime_title
 import java.lang.reflect.Field
 
 class CrimeFragment : Fragment() {
-    class fragment_crime : Fragment() {
         private lateinit var crime: Crime
         private lateinit var titleField: EditText
         private lateinit var dateButton: Button
@@ -71,6 +70,5 @@ class CrimeFragment : Fragment() {
             }
         }
     }
-}
 
 
