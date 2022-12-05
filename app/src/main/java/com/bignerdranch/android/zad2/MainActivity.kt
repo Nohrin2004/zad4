@@ -15,14 +15,17 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (currentFragment == null) {
+            val fragment =  CrimeFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container,fragment)
+                .commit()
+        }
     }
     override fun onCrimeSelected(crimeId:UUID)
     {
-        val fragment =
-            CrimeFragment.newInstance(crimeId)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container,fragment)
-            .commit()
+        val fragment = CrimeFragment.newInstance(crimeId)
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
     }
 }

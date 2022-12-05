@@ -4,6 +4,11 @@ import androidx.lifecycle.ViewModel
 
 class CrimeListViewModel: ViewModel()
 {
+    fun addCrime(crime: Crime) {
+        TODO("Not yet implemented")
+    }
+
+    val crimes = mutableListOf<Crime>()
     private val crimeRepository = CrimeRepository.get()
     val crimeListLiveData = crimeRepository.getCrimes()
     init {

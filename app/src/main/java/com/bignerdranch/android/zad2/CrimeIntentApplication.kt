@@ -8,3 +8,6 @@ class CrimeIntentApplication: Application() {
         CrimeRepository.initialize(this)
     }
 }
+private fun CrimeRepository.Companion.initialize(criminalIntentApplication: Application) {
+    TODO("Not yet implemented")
+}

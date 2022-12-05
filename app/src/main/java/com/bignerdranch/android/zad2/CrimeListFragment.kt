@@ -6,9 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.telecom.Call
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -38,6 +36,10 @@ class CrimeListFragment:Fragment()
         super.onAttach(context)
         callbacks = context as Callbacks?
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,26 +59,39 @@ class CrimeListFragment:Fragment()
             Observer { crimes ->
                 crimes?.let {
                     Log.i(TAG,"Got crimes ${crimes.size}")
-                    updateUI(crimes)
+                    updataUI(crimes)
                 }
             })
         }
+
+    private fun updataUI(crimes: List<Crime>) {
+        TODO("Not yet implemented")
+    }
+
     override fun onDetach() {
         super.onDetach()
         callbacks = null
     }
-
-  private fun updateUI(crimes:List<Crime>){
-        adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
-        TODO("Not yet implemented")
-    }
-
+override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    super.onCreateOptionsMenu(menu, inflater)
+    inflater.inflate(R.menu.fragment_crime_list, menu)
+}
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.new_crime ->{
+                val crime = Crime()
+                crimeListViewModel.addCrime(crime)
+                callbacks?.onCrimeSelected(crime.id)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+}
     private  inner class CrimeHolder(view:View)
         : RecyclerView.ViewHolder(view),View.OnClickListener{
         private lateinit var crime:Crime
-         val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
-      val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
+    private     val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
+   private   val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
     fun bind(crime: Crime)
     {
         this.crime = crime
@@ -109,6 +124,9 @@ class CrimeListFragment:Fragment()
             holder.bind(crime)
         }
         override fun getItemCount() = crimes.size
+    }
+    private  fun UpdateUI(crimes: List<Crime>){
+
     }
     companion object {
         fun newInstance(): CrimeListFragment {
